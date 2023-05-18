@@ -1,6 +1,7 @@
 import 'package:calendar_scheduler/component/schedul_card.dart';
 import 'package:calendar_scheduler/component/schedule_bottom_sheet.dart';
 import 'package:calendar_scheduler/component/today_banner.dart';
+import 'package:calendar_scheduler/const/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../component/calendar.dart';
@@ -48,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   FloatingActionButton renderFloatingActionButton() {
     return FloatingActionButton(
+      backgroundColor: PRIMARY_COLOR,
       onPressed: () {
         showModalBottomSheet(
           context: context,
