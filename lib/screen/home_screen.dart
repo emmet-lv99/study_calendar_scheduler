@@ -1,3 +1,4 @@
+import 'package:calendar_scheduler/component/schedul_card.dart';
 import 'package:calendar_scheduler/component/today_banner.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +34,29 @@ class _HomeScreenState extends State<HomeScreen> {
               selectedDay: selectedDay,
               scheduleCount: 3,
             ),
+            SizedBox(
+              height: 8,
+            ),
+            Expanded(
+              child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: ListView.separated(
+                    itemCount: 100,
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        height: 8,
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      return ScheduleCard(
+                        startTime: 8,
+                        endTime: 12,
+                        content: '멋진 개발자되기',
+                        color: Colors.red,
+                      );
+                    },
+                  )),
+            )
           ],
         ),
       ),
