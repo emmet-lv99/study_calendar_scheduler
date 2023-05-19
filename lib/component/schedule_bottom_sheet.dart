@@ -8,27 +8,36 @@ class ScheduleBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomInsets = MediaQuery.of(context).viewInsets.bottom;
-    return Container(
-      color: Colors.white,
-      height: MediaQuery.of(context).size.height / 2 + bottomInsets,
-      child: Padding(
-        padding: EdgeInsets.only(bottom: bottomInsets),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _Time(),
-              SizedBox(
-                height: 8,
+    return SafeArea(
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+          color: Colors.white,
+          height: MediaQuery.of(context).size.height / 2 + bottomInsets,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: bottomInsets),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _Time(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Expanded(
+                    child: CustomTextField(isTime: false, label: '내용'),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  _ColorPicker(),
+                  _SaveButton(),
+                ],
               ),
-              CustomTextField(label: '내용'),
-              SizedBox(
-                height: 8,
-              ),
-              _ColorPicker(),
-              _SaveButton(),
-            ],
+            ),
           ),
         ),
       ),
@@ -45,6 +54,7 @@ class _Time extends StatelessWidget {
       children: [
         Expanded(
           child: CustomTextField(
+            isTime: true,
             label: '시작시간',
           ),
         ),
@@ -53,6 +63,7 @@ class _Time extends StatelessWidget {
         ),
         Expanded(
           child: CustomTextField(
+            isTime: true,
             label: '마감시간',
           ),
         ),
