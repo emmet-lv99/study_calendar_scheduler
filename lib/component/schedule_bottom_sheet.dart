@@ -2,8 +2,15 @@ import 'package:calendar_scheduler/component/custom_text_field.dart';
 import 'package:calendar_scheduler/const/colors.dart';
 import 'package:flutter/material.dart';
 
-class ScheduleBottomSheet extends StatelessWidget {
+class ScheduleBottomSheet extends StatefulWidget {
   const ScheduleBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  State<ScheduleBottomSheet> createState() => _ScheduleBottomSheetState();
+}
+
+class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
+  final GlobalKey<FormState> formkey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -20,28 +27,42 @@ class ScheduleBottomSheet extends StatelessWidget {
             padding: EdgeInsets.only(bottom: bottomInsets),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _Time(),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Expanded(
-                    child: CustomTextField(isTime: false, label: '내용'),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  _ColorPicker(),
-                  _SaveButton(),
-                ],
+              child: Form(
+                key: formkey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _Time(),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Expanded(
+                      child: CustomTextField(isTime: false, label: '내용'),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    _ColorPicker(),
+                    _SaveButton(onPressed: onSavePressed),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  void onSavePressed() {
+    if (formkey.currentState == null) {
+      return;
+    }
+    if (formkey.currentState!.validate()) {
+      print('에러가 없습니다');
+    } else {
+      print('에러가 있습니다.');
+    }
   }
 }
 
@@ -73,7 +94,8 @@ class _Time extends StatelessWidget {
 }
 
 class _SaveButton extends StatelessWidget {
-  const _SaveButton({Key? key}) : super(key: key);
+  final VoidCallback onPressed;
+  const _SaveButton({required this.onPressed, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +106,7 @@ class _SaveButton extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: PRIMARY_COLOR,
             ),
-            onPressed: () {},
+            onPressed: onPressed,
             child: Text('저장'),
           ),
         ),
