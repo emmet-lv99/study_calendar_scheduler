@@ -2,7 +2,6 @@ import 'package:calendar_scheduler/component/custom_text_field.dart';
 import 'package:calendar_scheduler/const/colors.dart';
 import 'package:calendar_scheduler/database/drift_database.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
   const ScheduleBottomSheet({Key? key}) : super(key: key);
@@ -168,6 +167,45 @@ class _SaveButton extends StatelessWidget {
 }
 
 typedef ColorIdSetter = void Function(int val);
+
+class _ColorPicker extends StatelessWidget {
+  final List<CategoryColor> colors;
+  final int selectedId;
+  const _ColorPicker({required this.colors, required this.selectedId, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8.0,
+      runSpacing: 10.0,
+      //   children: colors
+      //       .map(
+      //         (e) => renderColor(e, selectedId == e.id),
+      //       )
+      //       .toList(),
+    );
+  }
+
+  Widget renderColor(CategoryColor color, bool selectedId) {
+    return Container(
+      width: 36,
+      height: 36,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: selectedId
+            ? Border.all(
+                color: Colors.black,
+                width: 4,
+              )
+            : null,
+        color: Color(
+          int.parse('FF${color.hexCode}', radix: 16),
+        ),
+      ),
+    );
+  }
+}
 
 // class _ColorPicker extends StatelessWidget {
 //   final List<CategoryColor> colors;
