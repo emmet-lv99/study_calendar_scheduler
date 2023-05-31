@@ -66,10 +66,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
                             selectedId = snapshot.data![0].id;
                           }
 
-                          return _ColorPicker(
-                            colors: snapshot.hasData ? snapshot.data! : [],
-                            selectedId: selectedId!,
-                          );
+                          return Wrap();
 
                           //   _ColorPicker(
                           //   colors: snapshot.hasData ? snapshot.data! : [],
@@ -171,45 +168,6 @@ class _SaveButton extends StatelessWidget {
 }
 
 typedef ColorIdSetter = void Function(int val);
-
-class _ColorPicker extends StatelessWidget {
-  final List<CategoryColor> colors;
-  final int selectedId;
-  const _ColorPicker({required this.colors, required this.selectedId, Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8.0,
-      runSpacing: 10.0,
-      children: colors
-          .map(
-            (e) => renderColor(e, selectedId == e.id),
-          )
-          .toList(),
-    );
-  }
-
-  Widget renderColor(CategoryColor color, bool selectedId) {
-    return Container(
-      width: 36,
-      height: 36,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: selectedId
-            ? Border.all(
-                color: Colors.black,
-                width: 4,
-              )
-            : null,
-        color: Color(
-          int.parse('FF${color.hexCode}', radix: 16),
-        ),
-      ),
-    );
-  }
-}
 
 // class _ColorPicker extends StatelessWidget {
 //   final List<CategoryColor> colors;
