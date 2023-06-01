@@ -1,11 +1,15 @@
 import 'package:calendar_scheduler/component/custom_text_field.dart';
 import 'package:calendar_scheduler/const/colors.dart';
 import 'package:calendar_scheduler/database/drift_database.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
-  const ScheduleBottomSheet({Key? key}) : super(key: key);
+  final DateTime selectedDate;
+
+  const ScheduleBottomSheet({required this.selectedDate, Key? key})
+      : super(key: key);
 
   @override
   State<ScheduleBottomSheet> createState() => _ScheduleBottomSheetState();
@@ -68,7 +72,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
 
                           return _ColorPicker(
                             colors: snapshot.hasData ? snapshot.data! : [],
-                            selectedId: selectedId!,
+                            selectedId: selectedId,
                             colorIdSetter: (int id) {
                               setState(() {
                                 selectedId = id;
@@ -99,6 +103,16 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
     if (formkey.currentState!.validate()) {
       print('에러가 없습니다');
       formkey.currentState?.save();
+      GetIt.I<LocalDatabase>().createSchedule(
+        SchedulesCompanion(
+          date: Value(widget.selectedDate),
+          startTime: Value(startTime!),
+          endTime: Value(endTime!),
+          content: Value(content!),
+          colorId: Value(selectedId!),
+        ),
+      );
+      Navigator.of(context).pop();
     } else {
       print('에러가 있습니다.');
     }
@@ -178,7 +192,7 @@ typedef ColorIdSetter = void Function(int val);
 
 class _ColorPicker extends StatelessWidget {
   final List<CategoryColor> colors;
-  final int selectedId;
+  final int? selectedId;
   final ColorIdSetter colorIdSetter;
   const _ColorPicker(
       {required this.colorIdSetter,
